@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
-var uuid = Uuid();
+var uuid = const Uuid();
 //step 1 creating user id
 Future<String> loadUserId() async {
   var preferences = await SharedPreferences.getInstance();

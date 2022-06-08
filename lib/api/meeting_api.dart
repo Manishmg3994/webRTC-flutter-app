@@ -6,8 +6,9 @@ import '../utils/user.utils.dart';
 
 //step 2
 String MEETING_API_URL =
-    "http://localhost:27017/api/meeting-app"; //"https://api.meetup.com/";
+    "http://127.0.0.1:5000/api/meeting"; //"https://api.meetup.com/";
 var client = http.Client();
+
 Future<http.Response?> startMeeting() async {
   Map<String, String> requestHeaders = {
     "Content-Type": "application/json",
@@ -15,7 +16,7 @@ Future<http.Response?> startMeeting() async {
   var userId = await loadUserId();
   var response = await client.post(Uri.parse('$MEETING_API_URL/start'),
       headers: requestHeaders,
-      body: jsonEncode({'hostId': userId, 'hostName': ""}));
+      body: jsonEncode({"hostId": userId, "hostName": ""}));
 
   if (response.statusCode == 200) {
     return response;
@@ -25,7 +26,8 @@ Future<http.Response?> startMeeting() async {
 }
 
 Future<http.Response?> joinMeeting(String meetingId) async {
-  var response = await http.get(Uri.parse('$MEETING_API_URL/join/$meetingId'));
+  var response =
+      await http.get(Uri.parse('$MEETING_API_URL/join?meetingId=$meetingId'));
 
   if (response.statusCode >= 200 && response.statusCode < 400) {
     return response;

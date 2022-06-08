@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:videocallwebrtc/api/meeting_api.dart';
 import 'package:videocallwebrtc/models/meeting_details.dart';
@@ -16,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
-  late String meetingId = "";
+  String meetingId = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void validateMeeting(String meetingId) async {
     try {
-      var response = await joinMeeting(meetingId); //here in response is var
+      Response? response =
+          await joinMeeting(meetingId); //here in response is var
       var data = json.decode(response!.body);
       final meetingDetails = MeetingDetail.fromJson(data["data"]);
       goToJoinScreen(meetingDetails);
@@ -92,12 +94,14 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }
   }
-goToJoinScreen(MeetingDetail meetingDetail)async{
-Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>JoinScreen(meetingDetails: meetingDetail)));
 
+  goToJoinScreen(MeetingDetail meetingDetail) async {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => JoinScreen(meetingDetails: meetingDetail)));
+  }
 
-
-}
   bool validateAndSave() {
     final form = globalKey.currentState;
     if (form!.validate()) {

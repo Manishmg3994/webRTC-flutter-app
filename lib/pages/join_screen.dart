@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 
 import 'package:videocallwebrtc/models/meeting_details.dart';
+import 'package:videocallwebrtc/pages/meeting_page.dart';
 
 class JoinScreen extends StatefulWidget {
   final MeetingDetail? meetingDetails;
@@ -52,19 +53,23 @@ class _JoinScreenState extends State<JoinScreen> {
               Flexible(
                   child: FormHelper.submitButton("Join Meeting", () {
                 if (validateAndSave()) {
-                  //Meeting ToDo:
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) {
+                      return MeetingPage(
+                        meetingId: widget.meetingDetails!.id,
+                        name: userName,
+                        meetingDetail: widget.meetingDetails!,
+                      );
+                    },
+                  ));
                 }
               })),
-            
             ])
           ],
         ),
       ),
     );
   }
-
-  
-
 
   bool validateAndSave() {
     final form = globalKey.currentState;
@@ -75,5 +80,3 @@ class _JoinScreenState extends State<JoinScreen> {
     return false;
   }
 }
- 
-
