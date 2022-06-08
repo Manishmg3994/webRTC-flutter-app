@@ -23,7 +23,10 @@ class _JoinScreenState extends State<JoinScreen> {
         title: const Text("Join Meeting"),
         backgroundColor: Colors.redAccent,
       ),
-      body: formUI(),
+      body: Form(
+        key: globalKey,
+        child: formUI(),
+      ),
     );
   }
 
